@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    logged_out?
   end
 
   # GET /users/new
@@ -19,6 +20,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    logged_out?
   end
 
   # POST /users
@@ -67,5 +69,11 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :admin, :password, :password_confirmation, :happiness, :nausea, :tickets, :height)
+    end
+
+    def logged_out?
+      if !session[:user_id]
+        redirect_to root_path
+      end
     end
 end
