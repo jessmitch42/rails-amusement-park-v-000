@@ -22,7 +22,15 @@
         <td><%= attraction.nausea_rating %></td>
         <td><%= attraction.happiness_rating %></td>
         <td><%= attraction.min_height %></td>
-        <td><%= link_to "Go on #{attraction.name}", attraction_path(attraction) %></td>
+        <% if !admin %>
+          <td><%= link_to "Go on #{attraction.name}", attraction_path(attraction) %></td>
+        <% end %>
+
+        <% if admin %>
+          <td><%= link_to "Show #{attraction.name}", attraction %></td>
+          <td><%= link_to "Edit Attraction", edit_attraction_path(attraction) %></td>
+          <td><%= link_to "Delete #{attraction.name}", attraction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
         <!-- <td><%= link_to 'Show', attraction %></td>
         <td><%= link_to 'Edit', edit_attraction_path(attraction) %></td>
         <td><%= link_to 'Destroy', attraction, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
@@ -32,5 +40,6 @@
 </table>
 
 <br>
-
-<!-- <%= link_to 'New Attraction', new_attraction_path %> -->
+<% if admin %>
+  <%= link_to 'New Attraction', new_attraction_path %>
+<% end %>

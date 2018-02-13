@@ -4,14 +4,16 @@ class Ride < ActiveRecord::Base
 
   def take_ride
     if !self.user.has_enough_tickets?(self.attraction) && !self.user.is_tall_enough?(self.attraction)
-      "Sorry. You do not have enough tickets to ride the Roller Coaster. You are not tall enough to ride the Roller Coaster."
+      msg = "Sorry. You do not have enough tickets to ride the #{self.attraction.name}. You are not tall enough to ride the Roller Coaster."
     elsif !self.user.has_enough_tickets?(self.attraction)
-      "Sorry. You do not have enough tickets to ride the Roller Coaster."
+      msg = "Sorry. You do not have enough tickets to ride the #{self.attraction.name}."
     elsif !self.user.is_tall_enough?(self.attraction)
-      "Sorry. You are not tall enough to ride the Roller Coaster."
+      msg = "Sorry. You are not tall enough to ride the #{self.attraction.name}."
     else
       self.user.update_user_after_ride(self.attraction)
+      msg = "Thanks for riding the #{self.attraction.name}!"
     end
+    return msg
   end
 
   # def attraction_tickets

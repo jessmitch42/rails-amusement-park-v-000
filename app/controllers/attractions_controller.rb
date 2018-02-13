@@ -37,6 +37,18 @@ class AttractionsController < ApplicationController
     end
   end
 
+  def ride
+    attraction = Attraction.find(params[:id])
+    ride = Ride.new(attraction_id: attraction.id, user_id: session[:user_id])
+    if ride.save
+      flash[:message] = ride.take_ride
+      redirect_to user_path(ride.user)
+    else
+      redirect_to attractions_path
+    end
+
+  end
+
   # PATCH/PUT /attractions/1
   # PATCH/PUT /attractions/1.json
   def update
